@@ -20,7 +20,7 @@ from marquez.models import (
     DbTableSchema,
     DbColumn
 )
-from marquez_airflow.utils import get_connection_uri
+from marquez_airflow.utils import get_normalized_postgres_connection_uri
 from marquez.sql import SqlMeta, SqlParser
 from marquez_airflow.extractors.base import (
     BaseExtractor,
@@ -55,9 +55,9 @@ class PostgresExtractor(BaseExtractor):
         # property that is used to override the one defined in the connection.
         conn_id = self._conn_id()
         source = Source(
-            type=self.source_type,
             name=conn_id,
-            connection_url=get_connection_uri(conn_id))
+            connection_url=self._get_connection_uri(conn_id)
+        )
 
         # (3) Map input / output tables to dataset objects with source set
         # as the current connection. We need to also fetch the schema for the
@@ -89,6 +89,9 @@ class PostgresExtractor(BaseExtractor):
                 'sql': self.operator.sql
             }
         )
+
+    def _get_connection_uri(self, conn_id):
+        return get_normalized_postgres_connection_uri(conn_id)
 
     def _conn_id(self):
         return self.operator.postgres_conn_id

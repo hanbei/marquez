@@ -19,28 +19,20 @@ from openlineage.facet import BaseFacet, DataSourceDatasetFacet, DocumentationDa
 from openlineage.run import Dataset as OpenLineageDataset
 
 
-class DatasetType(Enum):
-    DB_TABLE = "DB_TABLE"
-    STREAM = "STREAM"
-
-
 class Source:
     name = None
     connection_url = None
-    type = None
 
-    def __init__(self, name, type, connection_url):
+    def __init__(self, name, connection_url):
         self.name = name
-        self.type = type
         self.connection_url = connection_url
 
     def __eq__(self, other):
         return self.name == other.name and \
-               self.type == other.type and \
                self.connection_url == other.connection_url
 
     def __repr__(self):
-        return f"Source({self.name!r},{self.type!r},{self.connection_url!r})"
+        return f"Source({self.name!r},{self.connection_url!r})"
 
 
 class Field:
@@ -74,16 +66,19 @@ class Field:
 
 
 class Dataset:
-    def __init__(self, source: Source, name: str, type: DatasetType,
-                 fields: List[Field] = None, description: Optional[str] = None,
-                 custom_facets: Dict[str, BaseFacet] = None):
+    def __init__(
+            self,
+            source: Source,
+            name: str, fields: List[Field] = None,
+            description: Optional[str] = None,
+            custom_facets: Dict[str, BaseFacet] = None
+    ):
         if fields is None:
             fields = []
         if custom_facets is None:
             custom_facets = {}
         self.source = source
         self.name = name
-        self.type = type
         self.fields = fields
         self.description = description
         self.custom_facets = custom_facets
@@ -92,7 +87,6 @@ class Dataset:
     def from_table(source: Source, table_name: str,
                    schema_name: str = None):
         return Dataset(
-            type=DatasetType.DB_TABLE,
             name=Dataset._to_name(
                 schema_name=schema_name,
                 table_name=table_name
@@ -103,7 +97,6 @@ class Dataset:
     @staticmethod
     def from_table_schema(source: Source, table_schema: DbTableSchema):
         return Dataset(
-            type=DatasetType.DB_TABLE,
             name=Dataset._to_name(
                 schema_name=table_schema.schema_name,
                 table_name=table_schema.table_name.name
@@ -126,13 +119,12 @@ class Dataset:
     def __eq__(self, other):
         return self.source == other.source and \
                self.name == other.name and \
-               self.type == other.type and \
                self.fields == other.fields and \
                self.description == other.description
 
     def __repr__(self):
         return f"Dataset({self.source!r},{self.name!r}, \
-                         {self.type!r},{self.fields!r},{self.description!r})"
+                         {self.fields!r},{self.description!r})"
 
     def to_openlineage_dataset(self, namespace: str) -> OpenLineageDataset:
         facets = {

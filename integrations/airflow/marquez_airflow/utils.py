@@ -134,6 +134,18 @@ def get_connection_uri(conn_id):
     return conn_uri or _get_connection(conn_id).get_uri()
 
 
+def get_normalized_postgres_connection_uri(conn_id):
+    """
+    URIs starting with postgresql:// and postgres:// are both valid
+    PostgreSQL connection strings. This function normalizes it to
+    postgres:// as canonical name according to OpenLineage spec.
+    """
+    uri = get_connection_uri(conn_id)
+    if uri.startswith('postgresql'):
+        uri = uri.replace('postgresql', 'postgres', 1)
+    return uri
+
+
 @provide_session
 def _get_connection(conn_id, session=None):
     # TODO: We may want to throw an exception if the connection

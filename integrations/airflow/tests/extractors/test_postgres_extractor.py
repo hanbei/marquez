@@ -23,7 +23,7 @@ from marquez.models import (
     DbTableSchema,
     DbColumn
 )
-from marquez.dataset import Source, Dataset, DatasetType
+from marquez.dataset import Source, Dataset
 from marquez_airflow.extractors.postgres_extractor import PostgresExtractor
 
 CONN_ID = 'food_delivery_db'
@@ -104,10 +104,8 @@ def test_extract(mock_get_table_schemas):
 
     expected_inputs = [
         Dataset(
-            type=DatasetType.DB_TABLE,
             name=f"{DB_SCHEMA_NAME}.{DB_TABLE_NAME.name}",
             source=Source(
-                type='POSTGRESQL',
                 name=CONN_ID,
                 connection_url=CONN_URI
             ),

@@ -19,7 +19,7 @@ from typing import Optional, Any, Dict
 from marquez_airflow.extractors.base import BaseExtractor, StepMetadata
 from marquez_airflow.facets import DataQualityDatasetFacet, ColumnMetric
 from marquez_airflow.utils import get_job_name
-from marquez.dataset import Source, DatasetType, Dataset
+from marquez.dataset import Source, Dataset
 from marquez.utils import get_from_nullable_chain
 
 
@@ -93,11 +93,9 @@ class GreatExpectationsExtractorImpl(BaseExtractor):
             return Dataset(
                 source=Source(
                     name=name,
-                    type='GREAT_EXPECTATIONS',
                     connection_url=path
                 ),
                 name=name,
-                type=DatasetType.DB_TABLE,
                 custom_facets={
                     'dataQuality': data_quality_facet
                 }

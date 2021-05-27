@@ -1,5 +1,6 @@
 from airflow.contrib.operators.snowflake_operator import SnowflakeOperator
 from marquez_airflow.extractors.postgres_extractor import PostgresExtractor
+from marquez_airflow.utils import get_connection_uri
 
 
 class SnowflakeExtractor(PostgresExtractor):
@@ -25,3 +26,6 @@ class SnowflakeExtractor(PostgresExtractor):
 
     def _conn_id(self):
         return self.operator.snowflake_conn_id
+
+    def _get_connection_uri(self, conn_id):
+        return get_connection_uri(conn_id)

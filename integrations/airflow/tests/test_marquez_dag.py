@@ -231,7 +231,6 @@ class TestFixtureDummyOperator(DummyOperator):
 class TestFixtureDummyExtractor(BaseExtractor):
     operator_class = TestFixtureDummyOperator
     source = Source(
-        type="DummySource",
         name="dummy_source_name",
         connection_url="http://dummy/source/url")
 
@@ -261,7 +260,6 @@ class TestFixtureDummyExtractor(BaseExtractor):
 class TestFixtureDummyExtractorOnComplete(BaseExtractor):
     operator_class = TestFixtureDummyOperator
     source = Source(
-        type="DummySource",
         name="dummy_source_name",
         connection_url="http://dummy/source/url")
 
@@ -544,7 +542,6 @@ def test_marquez_dag_with_extract_on_complete(
 class TestFixtureDummyExtractorWithMultipleSteps(BaseExtractor):
     operator_class = TestFixtureDummyOperator
     source = Source(
-        type="DummySource",
         name="dummy_source_name",
         connection_url="http://dummy/source/url")
 
@@ -781,7 +778,6 @@ TestFixtureHookingDummyOperator.execute = wrap_callback(TestFixtureHookingDummyO
 class TestFixtureHookingDummyExtractor(BaseExtractor):
     operator_class = TestFixtureHookingDummyOperator
     source = Source(
-        type="DummySource",
         name="dummy_source_name",
         connection_url="http://dummy/source/url")
 

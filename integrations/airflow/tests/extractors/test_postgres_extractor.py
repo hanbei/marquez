@@ -96,17 +96,21 @@ TASK = PostgresOperator(
 )
 
 
-@mock.patch('marquez_airflow.extractors.postgres_extractor.\
-PostgresExtractor._get_table_schemas')
-def test_extract(mock_get_table_schemas):
+@mock.patch('marquez_airflow.extractors.postgres_extractor.PostgresExtractor._get_table_schemas')
+@mock.patch('marquez_airflow.extractors.postgres_extractor.get_connection')
+def test_extract(get_connection, mock_get_table_schemas):
     mock_get_table_schemas.side_effect = \
         [[DB_TABLE_SCHEMA], NO_DB_TABLE_SCHEMA]
+
+    get_connection.host.return_value = 'localhost'
+    get_connection.host.return_value = '5432'
 
     expected_inputs = [
         Dataset(
             name=f"{DB_SCHEMA_NAME}.{DB_TABLE_NAME.name}",
             source=Source(
-                name=CONN_ID,
+                scheme='postgres',
+                authority='localhost:5432',
                 connection_url=CONN_URI
             ),
             fields=[]

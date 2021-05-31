@@ -26,7 +26,7 @@ AIRFLOW_CONN_ID = 'test_db'
 AIRFLOW_CONN_URI = 'postgres://localhost:5432/testdb'
 
 
-@mock.patch("marquez_airflow.utils._get_connection")
+@mock.patch("marquez_airflow.utils.get_connection")
 def test_get_connection_uri(mock_get_connection):
     mock_get_connection.return_value = Connection(
         conn_id=AIRFLOW_CONN_ID,

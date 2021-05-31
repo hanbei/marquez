@@ -58,6 +58,11 @@ class ExpectationsParserResult:
     column_id: Optional[str] = attr.ib(default=None)
 
 
+def provide_dataset_info(operator, namespace: str, name: str):
+    operator._expectations_namespace = namespace
+    operator._expectations_name = name
+
+
 class GreatExpectationsExtractorImpl(BaseExtractor):
     """
     Great Expectations extractor extracts validation data from CheckpointResult object and
@@ -87,13 +92,26 @@ class GreatExpectationsExtractorImpl(BaseExtractor):
                 validation_result,
                 ['meta', 'batch_kwargs']
             )
+
+            scheme, authority, namespace, name = None, None, None, None
+
             # To match dataset name we need canonical datasource name
-            name = batch_kwargs.get('datasource', None)
-            path = batch_kwargs.get('path', None)
+            if hasattr(self.operator, '_expectations_namespace'):
+                namespace = self.operator._expectations_namespace
+                name = self.operator._expectations_name
+                if '://' in namespace:
+                    scheme, authority = namespace.split('://')
+                elif ':' in namespace:
+                    scheme, authority = namespace.split(':')
+            else:
+                name = batch_kwargs.get('datasource', None)
+                path = batch_kwargs.get('path', None)
+                namespace = f'{name}:{path}'
             return Dataset(
                 source=Source(
-                    name=name,
-                    connection_url=path
+                    scheme=scheme,
+                    authority=authority,
+                    namespace=namespace if not scheme and authority else None
                 ),
                 name=name,
                 custom_facets={
@@ -102,7 +120,7 @@ class GreatExpectationsExtractorImpl(BaseExtractor):
             )
 
         except ValueError:
-            pass
+            log.exception("Exception while retrieving great expectations dataset")
         return None
 
     def parse_data_quality_facet(self, validation_result: Dict) \

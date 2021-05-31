@@ -266,7 +266,7 @@ class BigQueryStatisticsProvider:
     def _source(self, bq_table) -> Source:
         table_name = self._bq_table_name(bq_table)
         return Source(
-            name=table_name,
+            scheme='bigquery',
             connection_url=_BIGQUERY_CONN_URL.format(table_name)
         )
 

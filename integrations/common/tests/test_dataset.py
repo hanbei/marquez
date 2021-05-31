@@ -11,7 +11,7 @@ from openlineage.run import Dataset as OpenLineageDataset
 @pytest.fixture
 def source():
     return Source(
-        name="dummy_source_name",
+        scheme="dummy",
         connection_url="http://dummy/source/url"
     )
 
@@ -19,7 +19,7 @@ def source():
 @pytest.fixture
 def table_schema():
     source = Source(
-        name="dummy_source_name",
+        scheme="dummy",
         connection_url="http://dummy/source/url"
     )
 
@@ -75,7 +75,7 @@ def test_dataset_to_openlineage(table_schema):
         name='public.discounts',
         facets={
             'dataSource': DataSourceDatasetFacet(
-                name='dummy_source_name',
+                name='public.discounts',
                 uri='http://dummy/source/url'
             ),
             'schema': SchemaDatasetFacet(

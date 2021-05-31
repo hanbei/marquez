@@ -19,19 +19,34 @@ from openlineage.run import Dataset as OpenLineageDataset
 
 
 class Source:
-    name = None
-    connection_url = None
-
-    def __init__(self, name, connection_url):
-        self.name = name
+    def __init__(
+            self,
+            scheme: Optional[str] = None,
+            authority: Optional[str] = None,
+            connection_url: Optional[str] = None,
+            namespace: Optional[str] = None
+    ):
+        self.scheme = scheme
+        self.authority = authority
+        self.namespace = namespace
         self.connection_url = connection_url
 
+        if (scheme or authority) and namespace:
+            raise RuntimeError('scheme + authority and namespace are exclusive options')
+
     def __eq__(self, other):
-        return self.name == other.name and \
-               self.connection_url == other.connection_url
+        return self.to_namespace() and \
+            self.connection_url == other.connection_url
 
     def __repr__(self):
-        return f"Source({self.name!r},{self.connection_url!r})"
+        return f"Source({self.scheme!r}://{self.authority!r} - {self.connection_url!r})"
+
+    def to_namespace(self) -> str:
+        if self.namespace:
+            return self.namespace
+        if self.authority:
+            return f'{self.scheme}://{self.authority}'
+        return f'{self.scheme}:'
 
 
 class Field:
@@ -128,7 +143,7 @@ class Dataset:
     def to_openlineage_dataset(self, namespace: str) -> OpenLineageDataset:
         facets = {
             "dataSource": DataSourceDatasetFacet(
-                self.source.name,
+                self.name,
                 self.source.connection_url
             )
         }

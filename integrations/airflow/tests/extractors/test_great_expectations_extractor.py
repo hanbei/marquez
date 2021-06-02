@@ -68,48 +68,48 @@ def test_great_expectations_operator_batch_kwargs_success():
     expected_assertions = GreatExpectationsAssertionsDatasetFacet(
         assertions=[
             GreatExpectationsAssertion(
-                expectation_type='expect_table_row_count_to_be_between',
+                expectationType='expect_table_row_count_to_be_between',
                 success=True
             ),
             GreatExpectationsAssertion(
-                expectation_type='expect_column_values_to_not_be_null',
+                expectationType='expect_column_values_to_not_be_null',
                 success=True,
-                column_id='vendor_id'
+                columnId='vendor_id'
             ),
             GreatExpectationsAssertion(
-                expectation_type='expect_column_distinct_values_to_be_in_set',
+                expectationType='expect_column_distinct_values_to_be_in_set',
                 success=True,
-                column_id='vendor_id'
+                columnId='vendor_id'
             ),
             GreatExpectationsAssertion(
-                expectation_type='expect_column_unique_value_count_to_be_between',
+                expectationType='expect_column_unique_value_count_to_be_between',
                 success=True,
-                column_id='vendor_id'
+                columnId='vendor_id'
             ),
             GreatExpectationsAssertion(
-                expectation_type='expect_column_min_to_be_between',
+                expectationType='expect_column_min_to_be_between',
                 success=True,
-                column_id='total_amount'
+                columnId='total_amount'
             ),
             GreatExpectationsAssertion(
-                expectation_type='expect_column_max_to_be_between',
+                expectationType='expect_column_max_to_be_between',
                 success=True,
-                column_id='total_amount'
+                columnId='total_amount'
             ),
             GreatExpectationsAssertion(
-                expectation_type='expect_column_sum_to_be_between',
+                expectationType='expect_column_sum_to_be_between',
                 success=True,
-                column_id='total_amount'
+                columnId='total_amount'
             ),
             GreatExpectationsAssertion(
-                expectation_type='expect_column_quantile_values_to_be_between',
+                expectationType='expect_column_quantile_values_to_be_between',
                 success=True,
-                column_id='total_amount'
+                columnId='total_amount'
             ),
             GreatExpectationsAssertion(
-                expectation_type='expect_column_distinct_values_to_be_in_set',
+                expectationType='expect_column_distinct_values_to_be_in_set',
                 success=True,
-                column_id='passenger_count'
+                columnId='passenger_count'
             )
         ]
     )

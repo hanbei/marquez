@@ -172,9 +172,9 @@ class GreatExpectationsExtractorImpl(BaseExtractor):
             expectations_results = validation_result['results']
             for expectation in expectations_results:
                 assertions.append(GreatExpectationsAssertion(
-                    expectation_type=expectation['expectation_config']['expectation_type'],
+                    expectationType=expectation['expectation_config']['expectation_type'],
                     success=expectation['success'],
-                    column_id=expectation['expectation_config']['kwargs'].get('column', None)
+                    columnId=expectation['expectation_config']['kwargs'].get('column', None)
                 ))
 
             return GreatExpectationsAssertionsDatasetFacet(assertions)

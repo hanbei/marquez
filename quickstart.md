@@ -164,3 +164,7 @@ In this simple example, we showed you how to use Marquez to collect dataset and 
 * Take a look at our Airflow [example](https://github.com/MarquezProject/marquez/tree/main/examples/airflow) to learn how to enable metadata collection for Airflow DAGs and troubleshoot failing DAGs using Marquez.
 * Listen to [Solving Data Lineage Tracking And Data Discovery At WeWork](https://www.dataengineeringpodcast.com/marquez-data-lineage-episode-111).
 * Listen to [Unlocking The Power of Data Lineage In Your Platform with OpenLineage](https://www.dataengineeringpodcast.com/openlineage-data-lineage-specification-episode-187).
+
+## Feedback
+
+What did you think of this example? You can reach out to us on [slack](http://bit.ly/MarquezSlack) and leave us feedback, or [open a pull request](https://github.com/MarquezProject/marquez/blob/main/CONTRIBUTING.md#submitting-a-pull-request) with your suggestions!  

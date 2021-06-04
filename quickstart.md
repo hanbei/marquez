@@ -86,7 +86,7 @@ $ curl -X POST http://localhost:5000/api/v1/lineage \
 
 ##### RESPONSE
 
-**`201 CREATED`**
+`201 CREATED`
 
 #### STEP 2: COMPLETE A RUN
 
@@ -127,7 +127,7 @@ $ curl -X POST http://localhost:5000/api/v1/lineage \
 
 ##### RESPONSE
 
-**`201 CREATED`**
+`201 CREATED`
 
 ## View Collected Lineage Metadata
 

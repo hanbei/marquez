@@ -14,7 +14,6 @@ from marquez.sql import SqlParser
 from openlineage.client import OpenLineageClientOptions, OpenLineageClient
 from openlineage.facet import SourceCodeLocationJobFacet, SqlJobFacet
 from openlineage.run import RunEvent, RunState, Run, Job, Dataset
-from openlineage.serde import Serde
 
 
 @dataclass

@@ -98,8 +98,8 @@ jobs:
       - run: pytest --cov=marquez_python tests/
       - run: bash <(curl -s https://codecov.io/bash)
 
-  test-integration-dbt:
-    working_directory: ~/marquez/integrations/dbt
+  test-integration-dbt-bigquery:
+    working_directory: ~/marquez/integrations/dbt_bigquery
     docker:
       - image: circleci/python:3.6
     steps:
@@ -110,8 +110,33 @@ jobs:
       - run: pytest --cov=adapters tests/
       - run: bash <(curl -s https://codecov.io/bash)
 
-  build-integration-dbt:
-    working_directory: ~/marquez/integrations/dbt
+  build-integration-dbt-bigquery:
+    working_directory: ~/marquez/integrations/dbt_bigquery
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - *checkout_project_root
+      - run: python setup.py sdist bdist_wheel
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./dist/*.whl
+            - ./dist/*.tar.gz
+
+  test-integration-dbt-snowflake:
+    working_directory: ~/marquez/integrations/dbt_snowflake
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - *checkout_project_root
+      - run: pip install -e .[dev]
+      - run: flake8
+      - run: python -m pytest --cov=dbt tests/
+      - run: pytest --cov=adapters tests/
+      - run: bash <(curl -s https://codecov.io/bash)
+
+  build-integration-dbt-snowflake:
+    working_directory: ~/marquez/integrations/dbt_snowflake
     docker:
       - image: circleci/python:3.6
     steps:

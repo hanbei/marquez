@@ -291,7 +291,8 @@ workflows:
       - test-client-python
       - test-integration-common
       - test-integration-airflow
-      - test-integration-dbt
+      - test-integration-dbt-bigquery
+      - test-integration-dbt-snowflake
       - integration-test-airflow:
           requires:
             - test-integration-airflow
@@ -303,7 +304,9 @@ workflows:
           <<: *only-on-release
       - build-integration-airflow:
           <<: *only-on-release
-      - build-integration-dbt:
+      - build-integration-dbt-bigquery:
+          <<: *only-on-release
+      - build-integration-dbt-snowflake:
           <<: *only-on-release
       - release-java:
           <<: *only-on-release

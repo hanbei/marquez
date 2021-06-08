@@ -20,7 +20,7 @@ def _openlineage_conn():
     return conn
 
 
-class BaseTestOpenLineageAdapter(unittest.TestCase):
+class BaseTestOpenLineageBQAdapter(unittest.TestCase):
     def setUp(self):
         flags.STRICT_MODE = True
 
@@ -74,8 +74,9 @@ class BaseTestOpenLineageAdapter(unittest.TestCase):
         return adapter
 
 
-class TestOpenLineageAdapterAcquire(BaseTestOpenLineageAdapter):
-    @patch('dbt.adapters.openlineage_bigquery.OpenLineageConnectionManager.open', return_value=_openlineage_conn())
+class TestOpenLineageBQAdapterAcquire(BaseTestOpenLineageBQAdapter):
+    @patch('dbt.adapters.openlineage_bigquery.OpenLineageBigQueryConnectionManager.open',
+           return_value=_openlineage_conn())
     def test_acquire_connection_test_validations(self, mock_open_connection):
         adapter = self.get_adapter('test')
         try:
@@ -93,7 +94,7 @@ class TestOpenLineageAdapterAcquire(BaseTestOpenLineageAdapter):
         mock_open_connection.assert_called_once()
 
     @patch('uuid.uuid4')
-    @patch('dbt.adapters.openlineage_bigquery.OpenLineageConnectionManager.get_openlineage_client')
+    @patch('dbt.adapters.openlineage_bigquery.OpenLineageBigQueryConnectionManager.get_openlineage_client')
     def test_acquire_connection_test_validations(self, get_openlineage_client, uuid4):
         uuid4.return_value = '86aea653-25fa-4712-962f-6cb9c44e6317'
         client = MagicMock()
@@ -111,7 +112,7 @@ class TestOpenLineageAdapterAcquire(BaseTestOpenLineageAdapter):
         except BaseException as e:
             raise
 
-        with open('tests/model.json') as f:
+        with open('tests/model_bigquery.json') as f:
             model = json.load(f)
             adapter.emit_start(model, run_started_now)
 
@@ -139,17 +140,17 @@ class TestOpenLineageAdapterAcquire(BaseTestOpenLineageAdapter):
             producer=PRODUCER,
             inputs=[
                 Dataset(
-                    namespace='dbt_openlineage_test',
-                    name='speedy-vim-308516.dbt_test1.test_second_parallel_dbt_model'
+                    namespace='bigquery:',
+                    name='speedy-vim-308516.dbt_test1.test_second_dbt_model'
                 ),
                 Dataset(
-                    namespace='dbt_openlineage_test',
-                    name='speedy-vim-308516.dbt_test1.test_second_dbt_model'
+                    namespace='bigquery:',
+                    name='speedy-vim-308516.dbt_test1.test_second_parallel_dbt_model'
                 )
             ],
             outputs=[
                 Dataset(
-                    namespace='dbt_openlineage_test',
+                    namespace='bigquery:',
                     name='speedy-vim-308516.dbt_test1.test_third_dbt_model'
                 )
             ]

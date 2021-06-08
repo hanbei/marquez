@@ -1,4 +1,4 @@
-{% materialization view, adapter='snowflake' -%}
+{% materialization view, adapter='openlineage_snowflake' -%}
 
     {% set original_query_tag = set_query_tag() %}
     {% set to_return = create_or_replace_view() %}

@@ -1,4 +1,4 @@
-{% macro snowflake__create_table_as(temporary, relation, sql) -%}
+{% macro openlineage_snowflake__create_table_as(temporary, relation, sql) -%}
   {%- set transient = config.get('transient', default=true) -%}
   {%- set cluster_by_keys = config.get('cluster_by', default=none) -%}
   {%- set enable_automatic_clustering = config.get('automatic_clustering', default=false) -%}
@@ -38,7 +38,7 @@
     {%- endif -%}
 {% endmacro %}
 
-{% macro snowflake__create_view_as(relation, sql) -%}
+{% macro openlineage_snowflake__create_view_as(relation, sql) -%}
   {%- set secure = config.get('secure', default=false) -%}
   {%- set copy_grants = config.get('copy_grants', default=false) -%}
   {%- set sql_header = config.get('sql_header', none) -%}
@@ -51,7 +51,7 @@
   );
 {% endmacro %}
 
-{% macro snowflake__get_columns_in_relation(relation) -%}
+{% macro openlineage_snowflake__get_columns_in_relation(relation) -%}
   {%- set sql -%}
     describe table {{ relation }}
   {%- endset -%}
@@ -73,7 +73,7 @@
   {% do return(columns) %}
 {% endmacro %}
 
-{% macro snowflake__list_schemas(database) -%}
+{% macro openlineage_snowflake__list_schemas(database) -%}
   {# 10k limit from here: https://docs.snowflake.net/manuals/sql-reference/sql/show-schemas.html#usage-notes #}
   {% set maximum = 10000 %}
   {% set sql -%}
@@ -92,7 +92,7 @@
 {% endmacro %}
 
 
-{% macro snowflake__list_relations_without_caching(schema_relation) %}
+{% macro openlineage_snowflake__list_relations_without_caching(schema_relation) %}
   {%- set sql -%}
     show terse objects in {{ schema_relation }}
   {%- endset -%}
@@ -110,7 +110,7 @@
 {% endmacro %}
 
 
-{% macro snowflake__check_schema_exists(information_schema, schema) -%}
+{% macro openlineage_snowflake__check_schema_exists(information_schema, schema) -%}
   {% call statement('check_schema_exists', fetch_result=True) -%}
         select count(*)
         from {{ information_schema }}.schemata
@@ -120,41 +120,41 @@
   {{ return(load_result('check_schema_exists').table) }}
 {%- endmacro %}
 
-{% macro snowflake__current_timestamp() -%}
+{% macro openlineage_snowflake__current_timestamp() -%}
   convert_timezone('UTC', current_timestamp())
 {%- endmacro %}
 
 
-{% macro snowflake__snapshot_string_as_time(timestamp) -%}
+{% macro openlineage_snowflake__snapshot_string_as_time(timestamp) -%}
     {%- set result = "to_timestamp_ntz('" ~ timestamp ~ "')" -%}
     {{ return(result) }}
 {%- endmacro %}
 
 
-{% macro snowflake__snapshot_get_time() -%}
+{% macro openlineage_snowflake__snapshot_get_time() -%}
   to_timestamp_ntz({{ current_timestamp() }})
 {%- endmacro %}
 
 
-{% macro snowflake__rename_relation(from_relation, to_relation) -%}
+{% macro openlineage_snowflake__rename_relation(from_relation, to_relation) -%}
   {% call statement('rename_relation') -%}
     alter table {{ from_relation }} rename to {{ to_relation }}
   {%- endcall %}
 {% endmacro %}
 
 
-{% macro snowflake__alter_column_type(relation, column_name, new_column_type) -%}
+{% macro openlineage_snowflake__alter_column_type(relation, column_name, new_column_type) -%}
   {% call statement('alter_column_type') %}
     alter table {{ relation }} alter {{ adapter.quote(column_name) }} set data type {{ new_column_type }};
   {% endcall %}
 {% endmacro %}
 
-{% macro snowflake__alter_relation_comment(relation, relation_comment) -%}
+{% macro openlineage_snowflake__alter_relation_comment(relation, relation_comment) -%}
   comment on {{ relation.type }} {{ relation }} IS $${{ relation_comment | replace('$', '[$]') }}$$;
 {% endmacro %}
 
 
-{% macro snowflake__alter_column_comment(relation, column_dict) -%}
+{% macro openlineage_snowflake__alter_column_comment(relation, column_dict) -%}
     alter {{ relation.type }} {{ relation }} alter
     {% for column_name in column_dict %}
         {{ adapter.quote(column_name) if column_dict[column_name]['quote'] else column_name }} COMMENT $${{ column_dict[column_name]['description'] | replace('$', '[$]') }}$$ {{ ',' if not loop.last else ';' }}
@@ -189,4 +189,4 @@
       {% do run_query("alter session unset query_tag") %}
     {% endif %}
   {% endif %}
-{% endmacro %} 
+{% endmacro %}

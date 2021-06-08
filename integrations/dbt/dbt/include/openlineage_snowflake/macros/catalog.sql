@@ -1,4 +1,4 @@
-{% macro snowflake__get_catalog(information_schema, schemas) -%}
+{% macro openlineage_snowflake__get_catalog(information_schema, schemas) -%}
   {% set query %}
       with tables as (
 

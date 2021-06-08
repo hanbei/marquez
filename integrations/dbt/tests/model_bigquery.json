@@ -69,7 +69,7 @@
     ],
     "relation_name": "`speedy-vim-308516`.`dbt_test1`.`test_third_dbt_model`",
     "resource_type": "model",
-    "root_path": "/home/mobuchowski/code/dbt-test",
+    "root_path": "/home/dbt/code/dbt-test",
     "schema": "dbt_test1",
     "sources": [],
     "tags": [],

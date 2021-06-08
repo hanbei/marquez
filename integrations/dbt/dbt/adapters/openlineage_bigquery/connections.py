@@ -112,17 +112,15 @@ class OpenLineageBigQueryConnectionManager(BigQueryConnectionManager):
                 }
             ),
             producer=PRODUCER,
-            inputs=[
+            inputs=sorted([
                 Dataset(
-                    namespace=meta.namespace,
+                    namespace='bigquery:',
                     name=relation,
-                    facets={
-
-                    }
+                    facets={}
                 ) for relation in inputs
-            ],
+            ], key=lambda x: x.name),
             outputs=[
-                Dataset(namespace=meta.namespace, name=output_relation_name)
+                Dataset(namespace='bigquery:', name=output_relation_name)
             ]
         ))
 
@@ -148,9 +146,14 @@ class OpenLineageBigQueryConnectionManager(BigQueryConnectionManager):
             logger.debug(f'openlineage complete event with run_id: {run_id}')
             return
 
-        run_facets, inputs, output = BigQueryDatasetsProvider(
+        stats = BigQueryDatasetsProvider(
             self.get_thread_connection().handle, logger
-        ).get_statistics(bq_job_id)
+        ).get_facets(bq_job_id)
+
+        inputs = stats.inputs
+        output = stats.output
+        run_facets = stats.run_facets
+
         self.get_openlineage_client().emit(RunEvent(
             eventType=RunState.COMPLETE,
             eventTime=datetime.now().isoformat(),

@@ -1,4 +1,4 @@
-{% materialization table, adapter='snowflake' %}
+{% materialization table, adapter='openlineage_snowflake' %}
 
   {% set original_query_tag = set_query_tag() %}
 

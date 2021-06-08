@@ -107,8 +107,21 @@ jobs:
       - run: pip install -e .[dev]
       - run: flake8
       - run: python -m pytest --cov=dbt tests/
-      - run: pytest --cov=marquez_airflow tests/
+      - run: pytest --cov=adapters tests/
       - run: bash <(curl -s https://codecov.io/bash)
+
+  build-integration-dbt:
+    working_directory: ~/marquez/integrations/dbt
+    docker:
+      - image: circleci/python:3.6
+    steps:
+      - *checkout_project_root
+      - run: python setup.py sdist bdist_wheel
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./dist/*.whl
+            - ./dist/*.tar.gz
 
   build-client-python:
     working_directory: ~/marquez/clients/python
@@ -224,7 +237,6 @@ jobs:
           # Publish *.jar
           ./gradlew publish
 
-
   release-docker:
     working_directory: ~/marquez
     machine: true
@@ -254,6 +266,7 @@ workflows:
       - test-client-python
       - test-integration-common
       - test-integration-airflow
+      - test-integration-dbt
       - integration-test-airflow:
           requires:
             - test-integration-airflow
@@ -265,7 +278,8 @@ workflows:
           <<: *only-on-release
       - build-integration-airflow:
           <<: *only-on-release
-      - test-integration-dbt
+      - build-integration-dbt:
+          <<: *only-on-release
       - release-java:
           <<: *only-on-release
           context: release

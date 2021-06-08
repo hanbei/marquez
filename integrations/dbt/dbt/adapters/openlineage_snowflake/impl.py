@@ -1,11 +1,11 @@
 from dbt.adapters.base import available
 from dbt.adapters.snowflake import SnowflakeAdapter
 
-from dbt.adapters.openlineage_snowflake import OpenLineageConnectionManager
+from dbt.adapters.openlineage_snowflake import OpenLineageSnowflakeConnectionManager
 
 
 class OpenLineageSnowflakeAdapter(SnowflakeAdapter):
-    ConnectionManager = OpenLineageConnectionManager
+    ConnectionManager = OpenLineageSnowflakeConnectionManager
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

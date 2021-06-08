@@ -24,7 +24,7 @@
   {% endif %}
 {% endmacro %}
 
-{% materialization incremental, adapter='snowflake' -%}
+{% materialization incremental, adapter='openlineage_snowflake' -%}
 
   {% set original_query_tag = set_query_tag() %}
 

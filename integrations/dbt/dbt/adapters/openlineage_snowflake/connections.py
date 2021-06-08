@@ -18,7 +18,7 @@ from openlineage.serde import Serde
 
 
 @dataclass
-class OpenLineageCredentials(SnowflakeCredentials):
+class OpenLineageSnowflakeCredentials(SnowflakeCredentials):
     """setting openlineage_url in dbt profile is required"""
     openlineage_url: Optional[str] = None
     openlineage_timeout: float = 5.0
@@ -36,14 +36,14 @@ class RunMeta:
     """
     run_id: str
     namespace: str
-    name: str
+    job_name: str
 
 
 BQ_QUERY_JOB_SPLIT = '-----Query Job SQL Follows-----'
 PRODUCER = f"dbt-openlineage_snowflake/{VERSION}"
 
 
-class OpenLineageConnectionManager(SnowflakeConnectionManager):
+class OpenLineageSnowflakeConnectionManager(SnowflakeConnectionManager):
     """Emitting openlineage events here allows us to handle
     errors and send fail events for them
     """
@@ -78,48 +78,45 @@ class OpenLineageConnectionManager(SnowflakeConnectionManager):
         except Exception as e:
             logger.error(f"Cannot parse snowflake sql. {e}", exc_info=True)
 
-        logger.info(Serde.to_json(model))
+        connection = self.get_thread_connection()
+        namespace = f'snowflake://{connection.credentials.account}'
 
         # set up metadata information to use in complete/fail events
         if not hasattr(self, '_meta'):
             self._meta = dict()
         meta = RunMeta(
             run_id,
-            model['fqn'][0],
+            namespace,
             model['unique_id']
         )
         self._meta[model['unique_id']] = meta
         self._meta[run_id] = meta
 
-        output_relation_name = model['relation_name'].replace('`', "")
-
-        self.get_openlineage_client().emit(RunEvent(
+        event = RunEvent(
             eventType=RunState.START,
             eventTime=run_started_at,
             run=Run(runId=run_id),
             job=Job(
                 namespace=meta.namespace,
-                name=meta.name,
+                name=meta.job_name,
                 facets={
                     "sourceCodeLocation": SourceCodeLocationJobFacet("", model['original_file_path']),
                     "sql": SqlJobFacet(model['compiled_sql'])
                 }
             ),
             producer=PRODUCER,
-            inputs=[
+            inputs=sorted([
                 Dataset(
                     namespace=meta.namespace,
                     name=relation,
-                    facets={
-
-                    }
+                    facets={}
                 ) for relation in inputs
-            ],
+            ], key=lambda x: x.name),
             outputs=[
-                Dataset(namespace=meta.namespace, name=output_relation_name)
+                Dataset(namespace=meta.namespace, name=model['relation_name'])
             ]
-        ))
-
+        )
+        self.get_openlineage_client().emit(event)
         return run_id
 
     def emit_complete(self, run_id):
@@ -129,7 +126,7 @@ class OpenLineageConnectionManager(SnowflakeConnectionManager):
             eventType=RunState.COMPLETE,
             eventTime=datetime.now().isoformat(),
             run=Run(runId=run_id),
-            job=Job(namespace=meta.namespace, name=meta.name),
+            job=Job(namespace=meta.namespace, name=meta.job_name),
             producer=PRODUCER,
             inputs=[],
             outputs=[]
@@ -146,7 +143,7 @@ class OpenLineageConnectionManager(SnowflakeConnectionManager):
             eventType=RunState.FAIL,
             eventTime=datetime.now().isoformat(),
             run=Run(runId=meta.run_id),
-            job=Job(namespace=meta.namespace, name=meta.name),
+            job=Job(namespace=meta.namespace, name=meta.job_name),
             producer=PRODUCER,
             inputs=[],
             outputs=[]

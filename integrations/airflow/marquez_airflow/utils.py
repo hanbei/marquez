@@ -10,17 +10,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import json
 import logging
 import os
 import subprocess
-import json
 from typing import Dict, Any, List, Optional
+from uuid import uuid4
 
 import airflow
 from airflow.models import Connection
 from airflow.utils.db import provide_session
-
-from marquez_airflow.facets import AirflowVersionRunFacet, AirflowRunArgsRunFacet
+from marquez_airflow.facets import AirflowVersionRunFacet, \
+    AirflowRunArgsRunFacet
 
 try:
     # Import from pendulum 1.x version
@@ -155,6 +156,10 @@ def get_custom_facets(task, is_external_trigger: bool):
         "airflow_runArgs": AirflowRunArgsRunFacet(is_external_trigger),
         "airflow_version": AirflowVersionRunFacet.from_task(task)
     }
+
+
+def new_run_id(dag_run_id: str, task_id: str) -> str:
+    return str(uuid4())
 
 
 class DagUtils:

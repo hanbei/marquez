@@ -113,8 +113,6 @@ funcsigs==1.0.2
 future-fstrings==1.2.0
 future==0.18.2
 gcsfs==0.6.2
-google-api-core==1.22.1
-google-api-python-client==1.10.0
 google-auth-httplib2==0.0.4
 google-auth-oauthlib==0.4.1
 google-auth==1.20.1

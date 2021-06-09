@@ -38,9 +38,9 @@ extras_require = {
         "google-crc32c>=1.1.2"
     ],
     "tests": [
-        "pytest==6.2.4",
-        "pytest-cov==2.12.1",
-        "flake8==3.9.2",
+        "pytest",
+        "pytest-cov",
+        "flake8",
     ],
 }
 extras_require["dev"] = set(sum(extras_require.values(), []))

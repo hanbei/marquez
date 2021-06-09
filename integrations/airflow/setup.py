@@ -46,15 +46,6 @@ extras_require = {
         "snowflake-connector-python==2.2.9",
         "airflow-provider-great-expectations==0.0.6",
         "marshmallow-sqlalchemy==0.25.0",
-        "httplib2==0.19.1",
-        "google-auth-httplib2==0.1.0",
-        "lazy_object_proxy==1.3.0",
-        "jsonschema==3.1.1",
-        "jsonpointer==1.9",
-        "jsonpatch==1.22",
-        "markdown==2.5.2",
-        "jedi==0.10",
-        "jinja2==2.11.2"
     ],
 }
 extras_require["dev"] = set(sum(extras_require.values(), []))

@@ -45,7 +45,7 @@ extras_require = {
         "apache-airflow[postgres]==1.10.12",
         "snowflake-connector-python==2.2.9",
         "airflow-provider-great-expectations==0.0.6",
-        "marshmallow==2.21.0",
+        "marshmallow-sqlalchemy==0.25.0",
     ],
 }
 extras_require["dev"] = set(sum(extras_require.values(), []))

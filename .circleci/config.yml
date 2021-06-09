@@ -195,7 +195,8 @@ jobs:
     steps:
       - *checkout_project_root
       - *install_integration_common
-      - run: pip install --constraint https://raw.githubusercontent.com/apache/airflow/1.10.12/requirements/requirements-python3.6.txt -e .[dev]
+      - run: pip install --upgrade --force-reinstall pip==20.2.4
+      - run: pip install -e .[dev]
       - run: flake8 --exclude integration
       - run: airflow initdb
       - run: python -m pytest --cov=marquez_airflow tests/

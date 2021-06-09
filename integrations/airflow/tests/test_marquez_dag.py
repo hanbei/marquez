@@ -12,7 +12,7 @@
 import functools
 
 import pytest
-import unittest import mock
+from unittest import mock
 import logging
 
 from airflow.models import (TaskInstance, DagRun)

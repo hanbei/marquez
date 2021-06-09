@@ -16,7 +16,7 @@ import random
 import unittest
 from datetime import datetime
 
-import unittest import mock
+from unittest import mock
 import pytz
 from airflow.utils import timezone
 from airflow.contrib.operators.bigquery_operator import BigQueryOperator

@@ -107,7 +107,10 @@ class OpenLineageBigQueryConnectionManager(BigQueryConnectionManager):
                 namespace=meta.namespace,
                 name=meta.name,
                 facets={
-                    "sourceCodeLocation": SourceCodeLocationJobFacet("", model['original_file_path']),
+                    "sourceCodeLocation": SourceCodeLocationJobFacet(
+                        "",
+                        model['original_file_path']
+                    ),
                     "sql": SqlJobFacet(model['compiled_sql'])
                 }
             ),

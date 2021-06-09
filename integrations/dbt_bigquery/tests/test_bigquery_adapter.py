@@ -86,7 +86,7 @@ class TestOpenLineageBQAdapterAcquire(BaseTestOpenLineageBQAdapter):
         except dbt.exceptions.ValidationException as e:
             self.fail('got ValidationException: {}'.format(str(e)))
 
-        except BaseException as e:
+        except BaseException:
             raise
 
         mock_open_connection.assert_not_called()
@@ -94,8 +94,8 @@ class TestOpenLineageBQAdapterAcquire(BaseTestOpenLineageBQAdapter):
         mock_open_connection.assert_called_once()
 
     @patch('uuid.uuid4')
-    @patch('dbt.adapters.openlineage_bigquery.OpenLineageBigQueryConnectionManager.get_openlineage_client')
-    def test_acquire_connection_test_validations(self, get_openlineage_client, uuid4):
+    @patch('dbt.adapters.openlineage_bigquery.OpenLineageBigQueryConnectionManager.get_openlineage_client')  # noqa
+    def test_run(self, get_openlineage_client, uuid4):
         uuid4.return_value = '86aea653-25fa-4712-962f-6cb9c44e6317'
         client = MagicMock()
         get_openlineage_client.return_value = client
@@ -109,7 +109,7 @@ class TestOpenLineageBQAdapterAcquire(BaseTestOpenLineageBQAdapter):
         except dbt.exceptions.ValidationException as e:
             self.fail('got ValidationException: {}'.format(str(e)))
 
-        except BaseException as e:
+        except BaseException:
             raise
 
         with open('tests/model_bigquery.json') as f:
@@ -131,8 +131,8 @@ class TestOpenLineageBQAdapterAcquire(BaseTestOpenLineageBQAdapter):
                     ),
                     "sql": SqlJobFacet(
                         query="select first.id as id, second.id as second_id from "
-                            "`speedy-vim-308516`.`dbt_test1`.`test_second_dbt_model` as first join"
-                            " `speedy-vim-308516`.`dbt_test1`.`test_second_parallel_dbt_model` "
+                            "`speedy-vim-308516`.`dbt_test1`.`test_second_dbt_model` as first join "  # noqa
+                            "`speedy-vim-308516`.`dbt_test1`.`test_second_parallel_dbt_model` "
                             "as second on first.id = second.id"
                     )
                 }

@@ -90,7 +90,7 @@ class TestOpenLineageSnowflakeAdapterAcquire(BaseTestOpenLineageSnowflakeAdapter
         except dbt.exceptions.ValidationException as e:
             self.fail('got ValidationException: {}'.format(str(e)))
 
-        except BaseException as e:
+        except BaseException:
             raise
 
         mock_open_connection.assert_not_called()
@@ -98,8 +98,8 @@ class TestOpenLineageSnowflakeAdapterAcquire(BaseTestOpenLineageSnowflakeAdapter
         mock_open_connection.assert_called_once()
 
     @patch('uuid.uuid4')
-    @patch('dbt.adapters.openlineage_snowflake.OpenLineageSnowflakeConnectionManager.get_openlineage_client')
-    def test_acquire_connection_test_validations(self, get_openlineage_client, uuid4):
+    @patch('dbt.adapters.openlineage_snowflake.OpenLineageSnowflakeConnectionManager.get_openlineage_client')  # noqa
+    def test_run(self, get_openlineage_client, uuid4):
         uuid4.return_value = '86aea653-25fa-4712-962f-6cb9c44e6317'
         client = MagicMock()
         get_openlineage_client.return_value = client
@@ -113,7 +113,7 @@ class TestOpenLineageSnowflakeAdapterAcquire(BaseTestOpenLineageSnowflakeAdapter
         except dbt.exceptions.ValidationException as e:
             self.fail('got ValidationException: {}'.format(str(e)))
 
-        except BaseException as e:
+        except BaseException:
             raise
 
         with open('tests/model_snowflake.json') as f:
@@ -135,9 +135,9 @@ class TestOpenLineageSnowflakeAdapterAcquire(BaseTestOpenLineageSnowflakeAdapter
                     ),
                     "sql": SqlJobFacet(
                         query="select first.id as id, second.id as second_id from "
-                            "DEMO_DB.public.test_second_dbt_model as first join "
-                            "DEMO_DB.public.test_second_parallel_dbt_model "
-                            "as second on first.id = second.id"
+                              "DEMO_DB.public.test_second_dbt_model as first join "
+                              "DEMO_DB.public.test_second_parallel_dbt_model "
+                              "as second on first.id = second.id"
                     )
                 }
             ),

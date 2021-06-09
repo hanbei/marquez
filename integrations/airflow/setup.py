@@ -19,10 +19,17 @@ from setuptools import find_packages, setup
 with open("README.md") as readme_file:
     readme = readme_file.read()
 
+
+package_name = "marquez-airflow"
+package_version = "0.15.0"
+description = """Marquez integration with Airflow"""
+
+
 requirements = [
     "attrs>=19.3",
     "requests>=2.24.0",
-    "sqlparse==0.4.1",
+    "sqlparse>=0.3.1",
+    f"marquez-common>={package_version}",
 ]
 
 extras_require = {
@@ -45,9 +52,9 @@ extras_require = {
 extras_require["dev"] = set(sum(extras_require.values(), []))
 
 setup(
-    name="marquez-airflow",
-    version="0.15.0",
-    description="Marquez integration with Airflow",
+    name=package_name,
+    version=package_version,
+    description=description,
     long_description=readme,
     long_description_content_type="text/markdown",
     author="Marquez Project",

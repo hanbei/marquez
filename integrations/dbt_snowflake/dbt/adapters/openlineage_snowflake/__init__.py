@@ -1,7 +1,7 @@
 from dbt.adapters.base import AdapterPlugin
 
 from dbt.adapters.openlineage_snowflake.connections import OpenLineageSnowflakeCredentials, \
-    OpenLineageSnowflakeConnectionManager
+    OpenLineageSnowflakeConnectionManager  # noqa
 from dbt.adapters.openlineage_snowflake.impl import OpenLineageSnowflakeAdapter
 from dbt.include import openlineage_snowflake
 

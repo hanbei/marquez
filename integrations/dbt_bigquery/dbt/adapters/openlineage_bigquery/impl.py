@@ -10,7 +10,6 @@ class OpenLineageBigQueryAdapter(BigQueryAdapter):
         super().__init__(*args, **kwargs)
         self._sqlmap = {}
 
-
     @classmethod
     def type(cls) -> str:
         return 'openlineage_bigquery'

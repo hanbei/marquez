@@ -174,7 +174,7 @@ def compare_dicts(dict1, dict2):
     common_keys = set(first_set).intersection(set(second_set))
     found_differences = False
     for key in common_keys:
-        if dict1[key] != dict2[key] :
+        if dict1[key] != dict2[key]:
             print(f"--- --- first dict: {key}: {str(dict1[key])}")
             print(f"--- --- second dict: {key}: {str(dict2[key])}")
             found_differences = True
@@ -216,7 +216,8 @@ def generate_name_macros(package):
         else:
             source = f'target.{component}'
         name = f'generate_{component}_name'
-        sql = f'{{% macro {name}(value, node) %}} {{% if value %}} {{{{ value }}}} {{% else %}} {{{{ {source} }}}} {{% endif %}} {{% endmacro %}}'
+        sql = f'{{% macro {name}(value, node) %}} {{% if value %}} {{{{ value }}}} {{% else %}} ' \
+              f'{{{{ {source} }}}} {{% endif %}} {{% endmacro %}}'
         name_sql[name] = sql
 
     for name, sql in name_sql.items():
@@ -342,10 +343,9 @@ def MockDocumentation(package, name, **kwargs):
     return doc
 
 
-def load_internal_manifest_macros(config, macro_hook = lambda m: None):
+def load_internal_manifest_macros(config, macro_hook=lambda m: None):
     from dbt.parser.manifest import ManifestLoader
     return ManifestLoader.load_macros(config, macro_hook)
-
 
 
 def dict_replace(dct, **kwargs):
@@ -359,4 +359,3 @@ def replace_config(n, **kwargs):
         config=n.config.replace(**kwargs),
         unrendered_config=dict_replace(n.unrendered_config, **kwargs),
     )
-

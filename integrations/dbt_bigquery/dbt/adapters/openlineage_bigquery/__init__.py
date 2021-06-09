@@ -1,7 +1,7 @@
 from dbt.adapters.base import AdapterPlugin
 
 from dbt.adapters.openlineage_bigquery.connections import OpenLineageBigQueryCredentials, \
-    OpenLineageBigQueryConnectionManager
+    OpenLineageBigQueryConnectionManager  # noqa
 from dbt.adapters.openlineage_bigquery.impl import OpenLineageBigQueryAdapter
 from dbt.include import openlineage_bigquery
 

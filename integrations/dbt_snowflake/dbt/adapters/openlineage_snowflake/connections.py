@@ -99,7 +99,10 @@ class OpenLineageSnowflakeConnectionManager(SnowflakeConnectionManager):
                 namespace=meta.namespace,
                 name=meta.job_name,
                 facets={
-                    "sourceCodeLocation": SourceCodeLocationJobFacet("", model['original_file_path']),
+                    "sourceCodeLocation": SourceCodeLocationJobFacet(
+                        "",
+                        model['original_file_path']
+                    ),
                     "sql": SqlJobFacet(model['compiled_sql'])
                 }
             ),

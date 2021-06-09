@@ -33,6 +33,7 @@ setup(
     install_requires=[
         "dbt-core>=0.20.0b1",
         "sqlparse>=0.3.1",
+        f"marquez-common=={package_version}",
         "openlineage-python>=0.0.1rc3"
     ],
     extras_require=extras_require,

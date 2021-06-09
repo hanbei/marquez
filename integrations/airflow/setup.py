@@ -53,6 +53,8 @@ extras_require = {
         "jsonpointer==1.9",
         "jsonpatch==1.22",
         "markdown==2.5.2",
+        "jedi==0.10",
+        "jinja2==2.11.2"
     ],
 }
 extras_require["dev"] = set(sum(extras_require.values(), []))

@@ -81,7 +81,7 @@ class TestOpenLineageBQAdapterAcquire(BaseTestOpenLineageBQAdapter):
         adapter = self.get_adapter('test')
         try:
             connection = adapter.acquire_connection('dummy')
-            self.assertEqual(connection.type, 'openlineage')
+            self.assertEqual(connection.type, 'openlineage_bigquery')
 
         except dbt.exceptions.ValidationException as e:
             self.fail('got ValidationException: {}'.format(str(e)))

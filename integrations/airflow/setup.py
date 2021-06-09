@@ -48,6 +48,8 @@ extras_require = {
         "marshmallow-sqlalchemy==0.25.0",
         "httplib2==0.19.1",
         "google-auth-httplib2==0.1.0",
+        "lazy_object_proxy==1.3.0",
+        "jsonschema==3.1.1"
     ],
 }
 extras_require["dev"] = set(sum(extras_require.values(), []))

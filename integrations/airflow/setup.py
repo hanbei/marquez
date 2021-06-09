@@ -34,10 +34,9 @@ requirements = [
 
 extras_require = {
     "tests": [
-        "pytest",
-        "pytest-cov",
-        "mock",
-        "flake8",
+        "pytest==6.2.4",
+        "pytest-cov==2.12.1",
+        "flake8==3.9.2",
         "SQLAlchemy==1.3.24",       # must be set to 1.3.* for airflow tests compatibility
         "Flask-SQLAlchemy==2.4.4",  # must be set to 2.4.* for airflow tests compatibility
         "pandas-gbq==0.14.1",       # must be set to 0.14.* for airflow tests compatibility

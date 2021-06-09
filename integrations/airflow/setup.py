@@ -39,6 +39,7 @@ extras_require = {
         "flake8",
         "apache-airflow[postgres, google]==1.10.12",
         "snowflake-connector-python",
+        "sqlalchemy>=1.3,<1.4",
         "airflow-provider-great-expectations==0.0.6",
     ],
 }

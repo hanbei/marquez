@@ -35,7 +35,7 @@ extras_require = {
         "google-auth>=1.30.0",
         "google-cloud-bigquery>=2.15.0",
         "google-cloud-core>=1.6.0",
-        "google-crc32c>=1.1.2"
+        "google-crc32c>=1.1.2",
     ],
     "tests": [
         "pytest",

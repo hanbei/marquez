@@ -24,7 +24,7 @@ package_version = "0.15.0"
 description = """The openlineage bigquery adapter plugin for dbt (data build tool)"""
 
 requirements = [
-    "attrs>=20.3.0",
+    "attrs>=19.3.0",
     "openlineage-python==0.0.1rc3",
     "sqlparse>=0.3.1",
 ]

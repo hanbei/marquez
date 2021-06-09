@@ -26,8 +26,8 @@ description = """Marquez integration with Airflow"""
 
 
 requirements = [
-    "attrs>=19.3",
-    "requests>=2.24.0",
+    "attrs>=19.3.0",
+    "requests>=2.20.0",
     "sqlparse>=0.3.1",
     f"marquez-common>={package_version}",
 ]

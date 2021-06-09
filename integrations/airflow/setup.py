@@ -37,7 +37,7 @@ extras_require = {
         "pytest",
         "pytest-cov",
         "flake8",
-        "SQLAlchemy==1.3.24",       # must be set to 1.3.* for airflow tests compatibility
+        "SQLAlchemy==1.3.18",       # must be set to 1.3.* for airflow tests compatibility
         "pandas-gbq==0.14.1",       # must be set to 0.14.* for airflow tests compatibility
         "apache-airflow==1.10.12",
         "apache-airflow[gcp_api]==1.10.12",

@@ -37,7 +37,7 @@ extras_require = {
         "pytest",
         "pytest-cov",
         "flake8",
-        "apache-airflow[gcp, postgres, google]==1.10.12",
+        "apache-airflow[postgres, google]==1.10.12",
         "snowflake-connector-python==2.2.9",
         "airflow-provider-great-expectations==0.0.6",
     ],

@@ -11,7 +11,7 @@
 # limitations under the License.
 
 import os
-import mock
+import unittest.mock
 
 from airflow.hooks.postgres_hook import PostgresHook
 from airflow.operators.postgres_operator import PostgresOperator

@@ -37,15 +37,12 @@ extras_require = {
         "pytest",
         "pytest-cov",
         "flake8",
-        "SQLAlchemy==1.3.18",       # must be set to 1.3.* for airflow tests compatibility
-        "pandas-gbq==0.13.2",       # must be set to 0.13.* for airflow tests compatibility
         "apache-airflow==1.10.12",
         "apache-airflow[gcp_api]==1.10.12",
         "apache-airflow[google]==1.10.12",
         "apache-airflow[postgres]==1.10.12",
         "snowflake-connector-python==2.2.9",
         "airflow-provider-great-expectations==0.0.6",
-        "marshmallow-sqlalchemy==0.25.0",
     ],
 }
 extras_require["dev"] = set(sum(extras_require.values(), []))

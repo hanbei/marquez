@@ -104,6 +104,7 @@ jobs:
       - image: circleci/python:3.6
     steps:
       - *checkout_project_root
+      - *install_integration_common
       - run: pip install -e .[dev]
       - run: flake8
       - run: python -m pytest --cov=dbt tests/
@@ -129,6 +130,7 @@ jobs:
       - image: circleci/python:3.6
     steps:
       - *checkout_project_root
+      - *install_integration_common
       - run: pip install -e .[dev]
       - run: flake8
       - run: python -m pytest --cov=dbt tests/

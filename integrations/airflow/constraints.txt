@@ -37,7 +37,6 @@ amqp==2.6.1
 analytics-python==1.2.9
 ansiwrap==0.8.4
 apipkg==1.5
-apispec==1.3.3
 appdirs==1.4.4
 argcomplete==1.12.0
 asn1crypto==1.4.0
